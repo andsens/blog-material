@@ -16,22 +16,20 @@
 
 		background-color: @circle-background;
 		border-radius: 50%;
-		.circle {
-			.fill {
-				width:    @circle-size;
-				height:   @circle-size;
-				position: absolute;
+		.circle .fill {
+			width:    @circle-size;
+			height:   @circle-size;
+			position: absolute;
 
-				border-radius: 50%;
+			border-radius: 50%;
 
-				transition: -webkit-transform @transition-length;
-				transition: -ms-transform @transition-length;
-				transition: transform @transition-length;
-				-webkit-backface-visibility: hidden;
+			transition: -webkit-transform @transition-length;
+			transition: -ms-transform @transition-length;
+			transition: transform @transition-length;
+			-webkit-backface-visibility: hidden;
 
-				clip: rect(0px, @circle-size/2, @circle-size, 0px);
-				background-color: @circle-color;
-			}
+			clip: rect(0px, @circle-size/2, @circle-size, 0px);
+			background-color: @circle-color;
 		}
 	}
 	</style>

@@ -1,31 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet/less" href="radial-progress.less">
+	<style type="text/less">
+	.radial-progress {
+		@circle-size: 120px;
+		@circle-background: #d6dadc;
+		@circle-color: #97a71d;
+		@transition-length: 1s;
+
+		width:  @circle-size;
+		height: @circle-size;
+
+		background-color: @circle-background;
+		border-radius: 50%;
+		.circle {
+			.mask, .fill {
+				width:    @circle-size;
+				height:   @circle-size;
+				position: absolute;
+
+				border-radius: 50%;
+
+				transition: -webkit-transform @transition-length;
+				-webkit-backface-visibility: hidden;
+			}
+			.mask {
+				clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
+				.fill {
+					clip: rect(0px, @circle-size/2, @circle-size, 0px);
+					background-color: @circle-color;
+				}
+			}
+		}
+	}
+	</style>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-</head>
-<body>
-	<div class="radial-progress">
-		<div class="circle">
-			<div class="mask">
-				<div class="fill"></div>
-			</div>
-		</div>
-	</div>
-	<script>
+	<script type="text/javascript">
 	$(function(){
 		var transform_styles = ['-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform', 'transform'];
 		window.randomize = function() {
 			var rotation = Math.floor(Math.random() * 360);
-			var fill_rotation = rotation / 2;
 			for(i in transform_styles) {
-				$('.circle .fill').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+				$('.circle .fill').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
 			}
 		}
 		setTimeout(window.randomize, 200);
 		$('.radial-progress').click(window.randomize);
 	});
 	</script>
+</head>
+<body>
+<div class="radial-progress">
+	<div class="circle">
+		<div class="mask">
+			<div class="fill"></div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

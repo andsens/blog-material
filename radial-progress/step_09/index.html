@@ -42,6 +42,8 @@
 			}
 			.mask, .fill {
 				transition: -webkit-transform @transition-length;
+				transition: -ms-transform @transition-length;
+				transition: transform @transition-length;
 			}
 			.mask {
 				clip: rect(0px, @circle-size, @circle-size, @circle-size/2);

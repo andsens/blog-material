@@ -25,6 +25,8 @@
 				border-radius: 50%;
 
 				transition: -webkit-transform @transition-length;
+				transition: -ms-transform @transition-length;
+				transition: transform @transition-length;
 				-webkit-backface-visibility: hidden;
 			}
 			.mask {
@@ -41,7 +43,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 	$(function(){
-		var transform_styles = ['-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform', 'transform'];
+		var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
 		window.randomize = function() {
 			var rotation = Math.floor(Math.random() * 360);
 			for(i in transform_styles) {

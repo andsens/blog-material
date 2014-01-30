@@ -1,0 +1,55 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+
+.radial-progress {
+	@circle-size: 120px;
+	@circle-background: #d6dadc;
+	@circle-color: #97a71d;
+	@inset-size: 90px;
+	@inset-color: #fbfbfb;
+	@circle-thickness: (@circle-size - @inset-size) / 2;
+	@shadow-size: @circle-thickness * .2;
+	@shadow-blur: @circle-thickness * .35;
+	@shadow-color: rgba(0,0,0,0.2);
+	@transition-length: 1s;
+
+
+	width:  @circle-size;
+	height: @circle-size;
+
+	background-color: @circle-background;
+	border-radius: 50%;
+	.circle {
+		.shadow, .mask, .fill {
+			width:    @circle-size;
+			height:   @circle-size;
+			position: absolute;
+
+			border-radius: 50%;
+		}
+		.shadow {
+			box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color inset;
+		}
+		.mask, .fill {
+			transition: -webkit-transform @transition-length;
+			-webkit-backface-visibility: hidden;
+		}
+		.mask {
+			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
+			.fill {
+				clip: rect(0px, @circle-size/2, @circle-size, 0px);
+				background-color: @circle-color;
+			}
+		}
+	}
+	.inset {
+		width:       @inset-size;
+		height:      @inset-size;
+		position:    absolute;
+		margin-left: (@circle-size - @inset-size)/2;
+		margin-top:  (@circle-size - @inset-size)/2;
+
+		background-color: @inset-color;
+		border-radius: 50%;
+		box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color;
+	}
+}

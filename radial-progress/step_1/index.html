@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet/less" href="radial-progress.less">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+	<div class="radial-progress">
+		<div class="circle">
+			<div class="fill"></div>
+		</div>
+	</div>
+	<script>
+	$(function(){
+		var transform_styles = ['-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform', 'transform'];
+		window.randomize = function() {
+			var rotation = Math.floor(Math.random() * 360);
+			for(i in transform_styles) {
+				$('.circle .fill').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
+			}
+		}
+		setTimeout(window.randomize, 200);
+		$('.radial-progress').click(window.randomize);
+	});
+	</script>
+</body>
+</html>

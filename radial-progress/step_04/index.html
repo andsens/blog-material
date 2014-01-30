@@ -8,7 +8,10 @@
 <body>
 	<div class="radial-progress">
 		<div class="circle">
-			<div class="mask">
+			<div class="mask left">
+				<div class="fill"></div>
+			</div>
+			<div class="mask right">
 				<div class="fill"></div>
 			</div>
 		</div>
@@ -20,7 +23,7 @@
 			var rotation = Math.floor(Math.random() * 360);
 			var fill_rotation = rotation / 2;
 			for(i in transform_styles) {
-				$('.circle .fill, .circle .mask').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+				$('.circle .fill').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
 			}
 		}
 		setTimeout(window.randomize, 200);

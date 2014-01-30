@@ -1,1 +1,0 @@
-Add half spin circle

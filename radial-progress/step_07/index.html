@@ -2,81 +2,77 @@
 <html>
 <head>
 	<style type="text/less">
-	body {
-		margin: 50px;
-	}
-	.radial-progress {
-		@circle-size: 120px;
-		@circle-background: #d6dadc;
-		@circle-color: #97a71d;
-		@inset-size: 90px;
-		@inset-color: #fbfbfb;
-		@circle-thickness: (@circle-size - @inset-size) / 2;
-		@shadow-size: @circle-thickness * .2;
-		@shadow-blur: @circle-thickness * .35;
-		@shadow-color: rgba(0,0,0,0.2);
-		@transition-length: 1s;
+body {
+	margin: 50px;
+}
+.radial-progress {
+	@circle-size: 120px;
+	@circle-background: #d6dadc;
+	@circle-color: #97a71d;
+	@inset-size: 90px;
+	@inset-color: #fbfbfb;
+	@circle-thickness: (@circle-size - @inset-size) / 2;
+	@shadow-size: @circle-thickness * .2;
+	@shadow-blur: @circle-thickness * .35;
+	@shadow-color: rgba(0,0,0,0.2);
+	@transition-length: 1s;
 
 
-		width:  @circle-size;
-		height: @circle-size;
+	width:  @circle-size;
+	height: @circle-size;
 
-		background-color: @circle-background;
-		border-radius: 50%;
-		.circle {
-			.shadow, .mask, .fill {
-				width:    @circle-size;
-				height:   @circle-size;
-				position: absolute;
+	background-color: @circle-background;
+	border-radius: 50%;
+	box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color inset;
+	.circle {
+		.mask, .fill {
+			width:    @circle-size;
+			height:   @circle-size;
+			position: absolute;
 
-				border-radius: 50%;
-			}
-			.shadow {
-				box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color inset;
-			}
-			.mask, .fill {
-				transition: -webkit-transform @transition-length;
-				transition: -ms-transform @transition-length;
-				transition: transform @transition-length;
-				-webkit-backface-visibility: hidden;
-			}
-			.mask {
-				clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
-				.fill {
-					clip: rect(0px, @circle-size/2, @circle-size, 0px);
-					background-color: @circle-color;
-				}
-			}
-		}
-		.inset {
-			width:       @inset-size;
-			height:      @inset-size;
-			position:    absolute;
-			margin-left: (@circle-size - @inset-size)/2;
-			margin-top:  (@circle-size - @inset-size)/2;
-
-			background-color: @inset-color;
+			-webkit-backface-visibility: hidden;
+			transition: -webkit-transform @transition-length;
+			transition: -ms-transform @transition-length;
+			transition: transform @transition-length;
 			border-radius: 50%;
-			box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color;
+		}
+		.mask {
+			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
+			.fill {
+				clip: rect(0px, @circle-size/2, @circle-size, 0px);
+				background-color: @circle-color;
+			}
 		}
 	}
+	.inset {
+		width:       @inset-size;
+		height:      @inset-size;
+		position:    absolute;
+		margin-left: (@circle-size - @inset-size)/2;
+		margin-top:  (@circle-size - @inset-size)/2;
+
+		background-color: @inset-color;
+		border-radius: 50%;
+		box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color;
+	}
+}
 	</style>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 	$(function(){
-		var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
-		window.randomize = function() {
-			var rotation = Math.floor(Math.random() * 360);
-			var fill_rotation = rotation / 2;
-			var fix_rotation = rotation / 2 * 2;
-			for(i in transform_styles) {
-				$('.circle .fill, .circle .mask.full').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
-				$('.circle .fill.fix').css(transform_styles[i], 'rotate(' + fix_rotation + 'deg)');
-			}
-		}
-		setTimeout(window.randomize, 200);
-		$('.radial-progress').click(window.randomize);
+var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
+window.randomize = function() {
+	var rotation = Math.floor(Math.random() * 180);
+	var fill_rotation = rotation;
+	var fix_rotation = rotation * 2;
+	for(i in transform_styles) {
+		$('.circle .fill, .circle .mask.full').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+		$('.circle .fill.fix').css(transform_styles[i], 'rotate(' + fix_rotation + 'deg)');
+	}
+}
+setTimeout(window.randomize, 200);
+$('.radial-progress').click(window.randomize);
 	});
 	</script>
 </head>
@@ -90,7 +86,6 @@
 			<div class="fill"></div>
 			<div class="fill fix"></div>
 		</div>
-		<div class="shadow"></div>
 	</div>
 	<div class="inset"></div>
 </div>

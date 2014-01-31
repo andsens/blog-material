@@ -19,7 +19,7 @@ body {
 	@shadow-color: rgba(0,0,0,0.2);
 	@percentage-color: #97a71d;
 	@percentage-font-size: 22px;
-	@percentage-text-width: 44px;
+	@percentage-text-width: 57px;
 	@percentage-line-height: @percentage-font-size - 4px;
 	@transition-length: 1s;
 
@@ -63,18 +63,16 @@ body {
 		.percentage {
 			width:       @percentage-text-width;
 			position:    absolute;
-			top:         @inset-size/2 - @percentage-line-height/2;
-			left:        (@inset-size - @percentage-text-width)/2;
+			top:         (@inset-size - @percentage-line-height) / 2;
+			left:        (@inset-size - @percentage-text-width) / 2;
 
 			line-height:  @percentage-line-height;
+			text-align: center;
 
 			font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 			color:       @percentage-color;
 			font-weight: 800;
 			font-size:   @percentage-font-size;
-
-			transition: width @transition-length;
-			text-align: center;
 		}
 	}
 
@@ -125,7 +123,6 @@ $('.radial-progress').click(window.randomize);
 			<div class="fill"></div>
 			<div class="fill fix"></div>
 		</div>
-		<div class="shadow"></div>
 	</div>
 	<div class="inset">
 		<div class="percentage"></div>

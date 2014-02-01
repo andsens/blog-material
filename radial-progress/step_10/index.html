@@ -13,15 +13,12 @@ body {
 	@circle-color: #97a71d;
 	@inset-size: 90px;
 	@inset-color: #fbfbfb;
-	@circle-thickness: (@circle-size - @inset-size) / 2;
-	@shadow-size: @circle-thickness * .2;
-	@shadow-blur: @circle-thickness * .35;
-	@shadow-color: rgba(0,0,0,0.2);
+	@shadow: 6px 6px 10px rgba(0,0,0,0.2);
+	@transition-length: 1s;
 	@percentage-color: #97a71d;
 	@percentage-font-size: 22px;
 	@percentage-text-width: 57px;
 	@percentage-line-height: @percentage-font-size - 4px;
-	@transition-length: 1s;
 
 
 	width:  @circle-size;
@@ -29,7 +26,7 @@ body {
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color inset;
+	box-shadow: @shadow inset;
 	.circle {
 		.mask, .fill {
 			width:    @circle-size;
@@ -59,7 +56,7 @@ body {
 
 		background-color: @inset-color;
 		border-radius: 50%;
-		box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color;
+		box-shadow: @shadow;
 		.percentage {
 			width:       @percentage-text-width;
 			position:    absolute;

@@ -46,9 +46,9 @@ body {
 var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
 window.randomize = function() {
 	var rotation = Math.floor(Math.random() * 180);
-	var fill_rotation = rotation;
 	for(i in transform_styles) {
-		$('.circle .fill, .circle .mask.full').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+		$('.circle .fill').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
+		$('.circle .mask.full').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
 	}
 }
 setTimeout(window.randomize, 200);

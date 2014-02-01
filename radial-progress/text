@@ -1,7 +1,7 @@
 A colleague of mine recently had the task to implement a design that incorporated radial progress bars. The design was brilliant and the implementation worked (he used geedmos solution), and so he moved on to implementing the rest of the design. Somehow my thoughts got stuck with that progress indicator and I thought to myself “surely, you can make that indicator spin, maybe even with CSS transitions”. So I stubbornly set out to figure out how to do this.
 
 My research on the net left me wanting, nobody really solved it.
-Yes, Jeff Pihach made a “radial progress bar”, but he uses CSS animations rather than CSS transitions. They cannot be controlled (except paused and resumed) and you have therefore no way to set the progress to e.g. 23%.
+Yes, Jeff Pihach made a “radial progress bar”, but he uses CSS animations rather than CSS transitions. Except pausing and resuming it you cannot do much with a CSS animation, there is no way to stop it at a predetermined location — like say a third through the animation to set the progress to 33%.
 There are jQuery plugins which can do it for you, but they use Javascript — CSS will always have the upper hand performance-wise when it comes to animations, especially on mobile devices.
 This is why I set out to implement my own CSS-animated radial progress bar.
 
@@ -62,7 +62,7 @@ window.randomize = function() {
  }
 }
 
-The “random” behavior is used for demonstration purposes. Not however how we make the “fill” element turn a full 360º. For the time being we will think of 360º as 100% and e.g. 90º as 25%.
+The “random” behavior is used for demonstration purposes. Note however how we make the “fill” element turn a full 360º. For the time being we will think of 360º as 100% and e.g. 90º as 25%.
 
 The rotation animation is of course the one we want to animate, so lets add a transition length variable and the css property to “fill”:
 
@@ -75,7 +75,9 @@ The rotation animation is of course the one we want to animate, so lets add a tr
   }
 }
 
-Clipping Rotating a full circle is no fun. That is why we begin with a half-circle. To do that, we use the CSS clip property. It allows us to make only a specific area of an element visible.
+Clipping Rotating a full circle is no fun, there is simply nothing to see because it is, well… round.
+
+A spinning circle. No really, it’s spinning right now!That is why we begin with a half-circle. To do that, we use the CSS clip property. It allows us to make only a specific area of an element visible.
 
 Let’s show only the left half of the circle.
 
@@ -191,7 +193,7 @@ This is the result:
 
 Clipping to half-circles on either side of a full circleAlright! We’re getting somewhere, but it is still not really a pie-chart. The second half-circle is always starting at 6 o’clock.
 
-The area filled by the two half-circles however is now representative of a full 100% when we set the rotation of each half-circle to 180º each.
+The area filled by the two half-circles however is now representative of a full 100% when we set the rotation of each half-circle to 180º.
 
 Have a look at it on jsFiddle.
 
@@ -226,11 +228,12 @@ At this point we would see two overlapping half-circles filling up until 180º, 
 
 
 
-When rotating the mask the “fill” inside will rotate as well, meaning if we rotate the mask 15º and the “fill” inside 15º the half-circle will actually have rotated 30º.
+When rotating the mask, the “fill” inside will rotate as well, meaning if we rotate the mask 15º and the “fill” inside 15º, the half-circle will actually have rotated 30º.
 
 The Javascript adjustment is fairly simple.
 
-$('.circle .fill, .circle .mask.full').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+$('.circle .fill').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
+$('.circle .mask.left').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
 
 Now the left half-circle rotates a full 360º for 100%, while the right half-circle only rotates 180º. Keeping that in mind, let us rename the half-circles to “half-spin” and “full-spin”.
 
@@ -250,7 +253,7 @@ Mind the Gap The gap between two clipped and rotated elements that are positione
   </div>
 </div>
 
-This “fill-fix” is a child of the static mask. It will sufficiently cover the gap if we set its full rotation to 360º since it is not clipped the same way the full-spin is. At 100% the “fill-fix” will overlap completely with the full-spin and not cover the gap, that specific position is however completely vertical for the clipping edges, so no rounding errors occurs.
+This “fill-fix” is a child of the static mask. It will sufficiently cover the gap if we set its full rotation to 360º since it is not clipped the same way the full-spin is. At 100% the “fill-fix” will overlap completely with the full-spin and not cover the gap, that specific position is however completely vertical for the clipping edges, so no rounding errors occur.
 
 The same CSS applies as before, but we will have to adjust our Javascript:
 
@@ -307,19 +310,11 @@ The inset should of course be round and positioned in the middle of our circle. 
 Shadow Shadows look nice, so let’s add one to both the inset and the circle border.
 
 .radial-progress {
-  box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color inset;
+  @shadow: 6px 6px 10px rgba(0,0,0,0.2);
+  box-shadow: @shadow inset;
   .inset {
-    box-shadow: @shadow-size @shadow-size @shadow-blur @shadow-color;
+    box-shadow: @shadow;
   }
-}
-
-To avoid hardcoding any shadow positions in pixels, we use a few variables.
-
-.radial-progress {
-  @circle-thickness: (@circle-size - @inset-size) / 2;
-  @shadow-size: @circle-thickness * .2;
-  @shadow-blur: @circle-thickness * .35;
-  @shadow-color: rgba(0,0,0,0.2);
 }
 
 Radial progress indicator with shadowVery pretty indeed! Take a look at the jsFiddle for this part, if you want to play with the inset or shadow settings.
@@ -439,25 +434,24 @@ Animate All the Things! The result is splendid (if I may say so myself). But we 
 This is where CSS gets complicated. Its transformations were built for smooth animations between two states and not abrupt switches, so how can we achieve with CSS animations exactly what they are trying to avoid?
 Linebreaks.
 
-Linebreaks move entire elements onto the next line once there is no space for them on the current one. We can abuse that behavior to animate our percentages. All we need is an element with all our numbers on one line, a mask that only shows the first number on the next line, and an animation that shrinks the element width depending on the percentage set.
-
-This means that the percentage that corresponds with the circle size will always be the first number on the second line during animation.
+Linebreaks move entire elements onto the next line once there is no space for them on the current one. We can abuse that behavior to animate our percentages. All we need is an element with all our numbers on one line, a mask that only shows the first number on the next line, and an animation that shrinks the element width depending on the percentage we set.
+This means that the percentage that corresponds to the circle size will always be the first number on the second line during animation.
 
 First we adjust the markup to contain all numbers from 0%-100% inside the percentage element.
 
-<div class="radial-progress" data-progress="0">
-  <div class="circle">
-    <div class="mask full">
-      <div class="fill"></div>
+<div class=”radial-progress” data-progress=”0">
+  <div class=”circle”>
+    <div class=”mask full”>
+      <div class=”fill”></div>
     </div>
-    <div class="mask half">
-      <div class="fill"></div>
-      <div class="fill fix"></div>
+    <div class=”mask half”>
+      <div class=”fill”></div>
+      <div class=”fill fix”></div>
     </div>
   </div>
-  <div class="inset">
-    <div class="percentage">
-      <span></span><span>0%</span><span>1%</span><span>2%</span><span>3%</span>...<span>99%</span><span>100%</span>
+  <div class=”inset”>
+    <div class=”percentage”>
+      <span></span><span>0%</span><span>1%</span><span>2%</span><span>3%</span>…<span>99%</span><span>100%</span>
     </div>
   </div>
 </div>
@@ -468,14 +462,14 @@ We will need to move the percentage element one line-height up to have the secon
 
 .radial-progress {
   .inset .percentage {
-    top: (@inset-size - @percentage-line-height) / 2 - @percentage-line-height;
+    top: (@inset-size — @percentage-line-height) / 2 — @percentage-line-height;
     /* rect(<top>, <right>, <bottom>, <left>) */
     clip: rect(@percentage-line-height, @percentage-text-width, @percentage-line-height + @percentage-line-height, 0px);
     transition: width @transition-length;
   }
 }
 
-The number elements inside “percentage” should be center and have the same width to ensure that each number jumps to the next line at the right time.
+The number elements inside “percentage” should be centered and have the same width to ensure that each number jumps to the next line at the right time.
 
 .radial-progress {
   .inset .percentage {
@@ -490,15 +484,17 @@ The number elements inside “percentage” should be center and have the same w
 A simple change in our data-progress selector makes sure that the width on the percentage element changes proportionally to the percentage set on the root.
 
 .radial-progress {
-  &[data-progress="@{i}"] {
+  &[data-progress=”@{i}”] {
     .inset .percentage {
-      width: @i * @percentage-text-width + @percentage-text-width;
+      width: @i*@percentage-text-width + @percentage-text-width;
     }
   }
 }
 
 And that’s it! The numbers are now whooshing by when progress is made.
 
-Check out the jsFiddle to see how it works. You might want to turn off the .percentage clipping rectangle to see exactly how things work.
+Percentages jumping to the next line when the surrounding element changes widthFor illustrative purpose I have removed the mask in this image. See how all we need to do is to only show the area where the 49% are?
+
+Check out the jsFiddle to see how it works. You can turn off the .percentage clipping rectangle on line 65 in the CSS to reproduce the above image.
 
 Going further easing functions, duration, colors depending on percentage, split up into more than two circles or get a linear gradient, adjust inset size etc. (examples)

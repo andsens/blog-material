@@ -2,9 +2,6 @@
 <html>
 <head>
 	<style type="text/less">
-body {
-	margin: 50px;
-}
 @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
 
 .radial-progress {
@@ -20,7 +17,7 @@ body {
 	@percentage-text-width: 57px;
 	@percentage-line-height: @percentage-font-size - 4px;
 
-
+	margin: 50px;
 	width:  @circle-size;
 	height: @circle-size;
 
@@ -118,6 +115,7 @@ $('.radial-progress').click(window.randomize);
 	</script>
 </head>
 <body>
+Animate percentage
 <div class="radial-progress" data-progress="0">
 	<div class="circle">
 		<div class="mask full">

@@ -2,34 +2,38 @@
 <html>
 <head>
 	<style type="text/less">
-body {
-	margin: 50px;
-}
 .radial-progress {
-	@circle-size: 120px;
+	@circle-size: 250px;
 	@circle-background: #d6dadc;
 	@circle-color: #97a71d;
 	@transition-length: 1s;
 
+	margin: 50px;
 	width:  @circle-size;
 	height: @circle-size;
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	.circle .fill {
-		width:    @circle-size;
-		height:   @circle-size;
-		position: absolute;
+	.circle {
+		.mask, .fill {
+			width:    @circle-size;
+			height:   @circle-size;
+			position: absolute;
 
-		border-radius: 50%;
+			border-radius: 50%;
 
-		transition: -webkit-transform @transition-length;
-		transition: -ms-transform @transition-length;
-		transition: transform @transition-length;
-		-webkit-backface-visibility: hidden;
-
-		clip: rect(0px, @circle-size/2, @circle-size, 0px);
-		background-color: @circle-color;
+			transition: -webkit-transform @transition-length;
+			transition: -ms-transform @transition-length;
+			transition: transform @transition-length;
+			-webkit-backface-visibility: hidden;
+		}
+		.mask {
+			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
+			.fill {
+				clip: rect(0px, @circle-size/2, @circle-size, 0px);
+				background-color: @circle-color;
+			}
+		}
 	}
 }
 	</style>
@@ -39,9 +43,10 @@ body {
 	$(function(){
 var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
 window.randomize = function() {
-	var rotation = Math.floor(Math.random() * 360);
+	var rotation = Math.floor(Math.random() * 180);
 	for(i in transform_styles) {
 		$('.circle .fill').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
+		$('.circle .mask.full').css(transform_styles[i], 'rotate(' + rotation + 'deg)');
 	}
 }
 setTimeout(window.randomize, 200);
@@ -50,9 +55,16 @@ $('.radial-progress').click(window.randomize);
 	</script>
 </head>
 <body>
+Convert left + right into full spin half spin
+Move full spin mask
 <div class="radial-progress">
 	<div class="circle">
-		<div class="fill"></div>
+		<div class="mask full">
+			<div class="fill"></div>
+		</div>
+		<div class="mask half">
+			<div class="fill"></div>
+		</div>
 	</div>
 </div>
 </body>

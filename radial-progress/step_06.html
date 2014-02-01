@@ -2,36 +2,30 @@
 <html>
 <head>
 	<style type="text/less">
-body {
-	margin: 50px;
-}
 .radial-progress {
 	@circle-size: 120px;
 	@circle-background: #d6dadc;
 	@circle-color: #97a71d;
-	@inset-size: 90px;
-	@inset-color: #fbfbfb;
 	@transition-length: 1s;
-	@shadow: 6px 6px 10px rgba(0,0,0,0.2);
 
-
+	margin: 50px;
 	width:  @circle-size;
 	height: @circle-size;
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	box-shadow: @shadow inset;
 	.circle {
 		.mask, .fill {
 			width:    @circle-size;
 			height:   @circle-size;
 			position: absolute;
 
-			-webkit-backface-visibility: hidden;
+			border-radius: 50%;
+
 			transition: -webkit-transform @transition-length;
 			transition: -ms-transform @transition-length;
 			transition: transform @transition-length;
-			border-radius: 50%;
+			-webkit-backface-visibility: hidden;
 		}
 		.mask {
 			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
@@ -41,46 +35,21 @@ body {
 			}
 		}
 	}
-	.inset {
-		width:       @inset-size;
-		height:      @inset-size;
-		position:    absolute;
-		margin-left: (@circle-size - @inset-size)/2;
-		margin-top:  (@circle-size - @inset-size)/2;
-
-		background-color: @inset-color;
-		border-radius: 50%;
-		box-shadow: @shadow;
-	}
-
-	@i: 0;
-	@increment: 180deg / 100;
-	.loop (@i) when (@i <= 100) {
-		&[data-progress="@{i}"] {
-			.circle {
-				.mask.full, .fill {
-					-webkit-transform: rotate(@increment * @i);
-					-ms-transform: rotate(@increment * @i);
-					transform: rotate(@increment * @i);
-				}	
-				.fill.fix {
-					-webkit-transform: rotate(@increment * @i * 2);
-					-ms-transform: rotate(@increment * @i * 2);
-					transform: rotate(@increment * @i * 2);
-				}
-			}
-		}
-		.loop(@i + 1);
-	}
-	.loop(@i);
 }
 	</style>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 	$(function(){
+var transform_styles = ['-webkit-transform', '-ms-transform', 'transform'];
 window.randomize = function() {
-	$('.radial-progress').attr('data-progress', Math.floor(Math.random() * 100));
+	var rotation = Math.floor(Math.random() * 180);
+	var fill_rotation = rotation;
+	var fix_rotation = rotation * 2;
+	for(i in transform_styles) {
+		$('.circle .fill, .circle .mask.full').css(transform_styles[i], 'rotate(' + fill_rotation + 'deg)');
+		$('.circle .fill.fix').css(transform_styles[i], 'rotate(' + fix_rotation + 'deg)');
+	}
 }
 setTimeout(window.randomize, 200);
 $('.radial-progress').click(window.randomize);
@@ -88,7 +57,8 @@ $('.radial-progress').click(window.randomize);
 	</script>
 </head>
 <body>
-<div class="radial-progress" data-progress="0">
+Add circle fix
+<div class="radial-progress">
 	<div class="circle">
 		<div class="mask full">
 			<div class="fill"></div>
@@ -98,7 +68,6 @@ $('.radial-progress').click(window.randomize);
 			<div class="fill fix"></div>
 		</div>
 	</div>
-	<div class="inset"></div>
 </div>
 </body>
 </html>

@@ -15,7 +15,6 @@
 	@percentage-color: #97a71d;
 	@percentage-font-size: 22px;
 	@percentage-text-width: 57px;
-	@percentage-line-height: @percentage-font-size - 4px;
 
 	margin: 50px;
 	width:  @circle-size;
@@ -55,13 +54,13 @@
 		border-radius: 50%;
 		box-shadow: @shadow;
 		.percentage {
+			line-height: 1;
 			width:       @percentage-text-width;
 			position:    absolute;
-			top:         (@inset-size - @percentage-line-height) / 2;
+			top:         (@inset-size - @percentage-font-size) / 2;
 			left:        (@inset-size - @percentage-text-width) / 2;
 
-			line-height:  @percentage-line-height;
-			text-align: center;
+			text-align:  center;
 
 			font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 			color:       @percentage-color;

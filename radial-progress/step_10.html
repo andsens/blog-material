@@ -10,8 +10,8 @@
 	@circle-color: #97a71d;
 	@inset-size: 90px;
 	@inset-color: #fbfbfb;
-	@shadow: 6px 6px 10px rgba(0,0,0,0.2);
 	@transition-length: 1s;
+	@shadow: 6px 6px 10px rgba(0,0,0,0.2);
 	@percentage-color: #97a71d;
 	@percentage-font-size: 22px;
 	@percentage-text-width: 57px;
@@ -22,13 +22,17 @@
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	box-shadow: @shadow inset;
 	.circle {
-		.mask, .fill {
+		.mask, .fill, .shadow {
 			width:    @circle-size;
 			height:   @circle-size;
 			position: absolute;
-
+			border-radius: 50%;
+		}
+		.shadow {
+			box-shadow: @shadow inset;
+		}
+		.mask, .fill {
 			-webkit-backface-visibility: hidden;
 			transition: -webkit-transform @transition-length;
 			transition: -ms-transform @transition-length;
@@ -62,15 +66,14 @@
 			top:      (@inset-size - @percentage-font-size) / 2;
 			left:     (@inset-size - @percentage-text-width) / 2;
 
+			line-height: 1;
 			.numbers {
 				margin-top: -@percentage-font-size;
 				transition: width @transition-length;
 				span {
 					width:          @percentage-text-width;
-					line-height:    1;
 					display:        inline-block;
 					vertical-align: top;
-
 					text-align:     center;
 					font-weight:    800;
 					font-size:      @percentage-font-size;
@@ -129,6 +132,7 @@ Animate percentage
 			<div class="fill"></div>
 			<div class="fill fix"></div>
 		</div>
+		<div class="shadow"></div>
 	</div>
 	<div class="inset">
 		<div class="percentage">

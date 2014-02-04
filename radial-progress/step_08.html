@@ -17,18 +17,21 @@
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	box-shadow: @shadow inset;
 	.circle {
-		.mask, .fill {
+		.mask, .fill, .shadow {
 			width:    @circle-size;
 			height:   @circle-size;
 			position: absolute;
-
+			border-radius: 50%;
+		}
+		.shadow {
+			box-shadow: @shadow inset;
+		}
+		.mask, .fill {
 			-webkit-backface-visibility: hidden;
 			transition: -webkit-transform @transition-length;
 			transition: -ms-transform @transition-length;
 			transition: transform @transition-length;
-			border-radius: 50%;
 		}
 		.mask {
 			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
@@ -95,6 +98,7 @@ Add less loop
 			<div class="fill"></div>
 			<div class="fill fix"></div>
 		</div>
+		<div class="shadow"></div>
 	</div>
 	<div class="inset"></div>
 </div>
